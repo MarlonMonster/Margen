@@ -230,16 +230,27 @@
   }
 
   const speakOk = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+  let autoSpeak = load('margen:sound') === '1';
+  function speak(text) {
+    if (!speakOk) return;
+    try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'es-ES'; u.rate = 0.9; speechSynthesis.speak(u); } catch (e) { /* no voice */ }
+  }
   function speakBtn(text) {
     if (!speakOk) return null;
     const b = h('button', 'say');
     b.type = 'button';
     b.setAttribute('aria-label', 'Hear ' + text);
     b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
-    b.addEventListener('click', () => {
-      try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'es-ES'; speechSynthesis.speak(u); } catch (e) { /* no voice */ }
-    });
+    b.addEventListener('click', () => speak(text));
     return b;
+  }
+  /** A short English rendering of a dictionary gloss: no leading qualifiers, at most three near-synonyms. */
+  function short(g) {
+    const s = String(g).replace(/^(\([^)]*\)\s*)+/, '').trim() || String(g);
+    const parts = s.split(/\s*[,;]\s*/);
+    let out = parts[0];
+    for (let i = 1; i < parts.length && i < 3; i++) { if ((out + ', ' + parts[i]).length > 36) break; out += ', ' + parts[i]; }
+    return out;
   }
 
   function senseBlock(s) {
@@ -257,6 +268,7 @@
   async function showWord(token) {
     const word = sel.text;
     const override = current.gloss && current.gloss[word.toLowerCase()];
+    if (autoSpeak) speak(word);
     const row = h('div', 'g-wordrow');
     row.append(h('p', 'g-word', word));
     const sp = speakBtn(word);
@@ -265,24 +277,32 @@
     const info = await lookup(word);
     if (!sel || sel.token !== token) return;
     const nodes = [row];
+    const senses = info.senses || [];
     if (override) {
       const [m, note] = override.split('|');
       nodes.push(h('p', 'g-en', m));
       if (note) nodes.push(h('p', 'g-meta', note));
-      if (info.senses && info.senses.length) nodes.push(h('p', 'g-note', 'Also in the dictionary:'));
     } else if (info.error) {
       nodes.push(h('p', 'g-meta', info.error));
-    } else if (!info.senses.length) {
+    } else if (!senses.length) {
       nodes.push(h('p', 'g-en', 'No entry'));
       nodes.push(h('p', 'g-meta', /^\p{Lu}/u.test(word) ? 'This may be a name.' : 'This word is not in the dictionary.'));
     } else {
-      nodes.push(h('p', 'g-en', info.senses[0].glosses[0]));
+      const first = senses[0];
+      nodes.push(h('p', 'g-en', short(first.glosses[0])));
+      const also = first.glosses.slice(1, 3).map(short).filter((x) => x && x !== short(first.glosses[0]) && !/^in (various|certain|some)/i.test(x));
+      if (also.length) nodes.push(h('p', 'g-also', 'also: ' + also.join(' · ')));
+      nodes.push(h('p', 'g-meta', first.lemma + ' · ' + first.pos + (first.forms && first.forms[0] ? ' · ' + first.forms[0] : '')));
     }
-    const rest = override ? info.senses || [] : (info.senses || []).slice(0, 3);
-    rest.slice(0, 3).forEach((s) => nodes.push(senseBlock(s)));
-    const a = h('div', 'g-actions');
-    a.append(btn('Translate the sentence', '', () => lineFromWord()));
-    nodes.push(a);
+    if (senses.length) {
+      const more = h('details', 'g-more');
+      more.append(h('summary', '', override ? 'Dictionary' : 'More meanings'));
+      senses.slice(0, 3).forEach((x) => more.append(senseBlock(x)));
+      nodes.push(more);
+    }
+    const act = h('div', 'g-actions');
+    act.append(btn('Translate the sentence', '', () => lineFromWord()));
+    nodes.push(act);
     setBody(...nodes);
   }
 
@@ -403,6 +423,14 @@
   }
   $('m-word').addEventListener('click', () => setMode('word'));
   $('m-line').addEventListener('click', () => setMode('line'));
+  const soundBtn = $('sound-btn'), themeBtn = $('theme-btn');
+  function paintSound() { soundBtn.setAttribute('aria-pressed', String(autoSpeak)); soundBtn.classList.toggle('on', autoSpeak); }
+  if (!speakOk) soundBtn.hidden = true;
+  soundBtn.addEventListener('click', () => { autoSpeak = !autoSpeak; store('margen:sound', autoSpeak ? '1' : '0'); paintSound(); if (autoSpeak) speak('hola'); });
+  paintSound();
+  const paintTheme = () => { const dark = document.documentElement.dataset.theme === 'dark'; themeBtn.textContent = dark ? '☀' : '☾'; themeBtn.setAttribute('aria-label', dark ? 'Switch to the light theme' : 'Switch to the dark theme'); };
+  themeBtn.addEventListener('click', () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = t; store('margen:theme', t); paintTheme(); });
+  paintTheme();
   function applySize() { el.reader.style.setProperty('--read', SIZES[sizeIdx]); }
   $('size-btn').addEventListener('click', () => { sizeIdx = (sizeIdx + 1) % SIZES.length; store('margen:size', String(sizeIdx)); applySize(); closePop(); });
   $('prev').addEventListener('click', () => { if (page > 0) { page--; renderPage(); window.scrollTo(0, 0); } });

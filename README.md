@@ -14,7 +14,7 @@ On a phone, open the printed URL and use "Add to Home Screen".
 
 ## Phone-only web version
 
-`npm run build-web` (after setup) writes `web/` (this repo serves the same build from `docs/` with GitHub Pages), a static copy that needs no computer once hosted: the dictionary runs in the browser and your texts are stored on the phone. Upload the `web/` folder to any static host over HTTPS (for example Netlify Drop, Cloudflare Pages or GitHub Pages), open the address on your phone and Add to Home Screen. Tap "Save for offline" once to keep the dictionary on the phone (about 100 MB).
+`npm run build-web` (after setup) writes `web/`, a static copy that needs no computer once hosted: the dictionary runs in the browser and your texts are stored on the phone. Upload the `web/` folder to any static host over HTTPS (for example Netlify Drop, Cloudflare Pages or GitHub Pages), open the address on your phone and Add to Home Screen. Tap "Save for offline" once to keep the dictionary on the phone (about 100 MB).
 
 Differences from the computer version: Wikipedia works, but Project Gutenberg and LibriVox cannot be fetched by a web page, so paste Gutenberg text under Add text instead.
 
