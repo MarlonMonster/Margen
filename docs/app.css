@@ -190,3 +190,24 @@ main { padding-block: 20px 56px; }
 .g-more { margin-top: 10px; font-size: 0.9rem; }
 .g-more summary { cursor: pointer; color: var(--azul); font-weight: 600; min-height: 28px; display: flex; align-items: center; }
 .pop.hover .g-more { display: none; }
+
+.w.learn { box-shadow: inset 0 -0.2em 0 var(--mark); }
+.w.learn.on { box-shadow: 0 0 0 2px var(--azul-soft); }
+.g-actions .btn.on { background: var(--azul); color: var(--on-azul); border-color: var(--azul); }
+.rv { padding: 8px 0; }
+.rv-s { margin: 8px 0; font: 400 1.3rem/1.5 var(--serif); }
+.rv-s mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 2px; }
+.rv-s .blank { display: inline-block; min-width: 4.5em; border-bottom: 2px solid var(--azul); }
+.rv-word { margin: 12px 0 4px; font: 600 2rem var(--serif); color: var(--azul); }
+.rv-show { width: 100%; margin-top: 16px; }
+.rv-grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.rv-grade .btn { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 54px; gap: 2px; }
+.rv-grade small { font-size: 0.75rem; opacity: 0.8; }
+.sub.it { font-family: var(--serif); font-style: italic; }
+.panel .rv { display: flex; flex-direction: column; gap: 6px; }
+.panel .rv .g-en { margin: 4px 0; color: var(--fg); font-size: 1.5rem; }
+.panel .rv .g-word { color: var(--azul); font-size: 1.2rem; }
+.panel .rv .rv-s { margin: 6px 0; color: var(--fg); font: 400 1.3rem/1.5 var(--serif); }
+.panel .rv .rv-word { margin: 12px 0 4px; color: var(--azul); font: 600 2rem var(--serif); }
+.panel .rv .g-also { color: var(--soft); font-size: 1rem; }
+.panel .rv .g-meta { font-size: 0.86rem; }

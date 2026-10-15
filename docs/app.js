@@ -9,6 +9,8 @@
   const store = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } };
   const load = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 
+  const vocab = window.MargenVocab.create({ get: load, set: store });
+
   function h(tag, cls, txt) {
     const n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -76,13 +78,19 @@
     s.dataset.t = es;
     if (en) s.dataset.en = en;
     let last = 0;
+    const lf = vocab.learningForms();
     Array.from(es.matchAll(WORD)).forEach((m) => {
       if (m.index > last) s.append(es.slice(last, m.index));
-      s.append(h('span', 'w', m[0]));
+      s.append(h('span', lf.has(m[0].toLowerCase()) ? 'w learn' : 'w', m[0]));
       last = m.index + m[0].length;
     });
     if (last < es.length) s.append(es.slice(last));
     return s;
+  }
+
+  function paintMarks() {
+    const lf = vocab.learningForms();
+    el.reader.querySelectorAll('.w').forEach((w) => w.classList.toggle('learn', lf.has(w.textContent.toLowerCase())));
   }
 
   function figure(img) {
@@ -110,6 +118,7 @@
       }
       el.reader.append(par);
     });
+    paintMarks();
     el.pager.hidden = pages.length < 2;
     $('page-of').textContent = `Page ${page + 1} of ${pages.length}`;
     $('prev').disabled = page === 0;
@@ -300,8 +309,28 @@
       senses.slice(0, 3).forEach((x) => more.append(senseBlock(x)));
       nodes.push(more);
     }
+    const first = senses[0];
+    const gloss = override ? override.split('|')[0] : first ? short(first.glosses[0]) : '';
     const act = h('div', 'g-actions');
-    act.append(btn('Translate the sentence', '', () => lineFromWord()));
+    if (gloss) {
+      const lemma = (info.lemma || word).toLowerCase();
+      const sn = sel.el && sel.el.closest ? sel.el.closest('.s') : null;
+      const meta = { lemma, pos: first ? first.pos : '', gloss, form: word, ex: sn ? { es: sn.dataset.t, en: sn.dataset.en || '' } : null };
+      const learnB = btn('', 'small'), knownB = btn('', 'small');
+      const paint = () => {
+        const c = vocab.get(lemma);
+        const learning = !!c && c.status === 'learning', known = !!c && c.status === 'known';
+        learnB.textContent = learning ? '✓ Learning' : '+ Learn';
+        knownB.textContent = known ? '✓ Known' : 'I know it';
+        learnB.classList.toggle('on', learning); knownB.classList.toggle('on', known);
+        learnB.setAttribute('aria-pressed', String(learning)); knownB.setAttribute('aria-pressed', String(known));
+      };
+      learnB.addEventListener('click', () => { const c = vocab.get(lemma); if (c && c.status === 'learning') vocab.remove(lemma); else vocab.add(meta); paint(); paintMarks(); });
+      knownB.addEventListener('click', () => { const c = vocab.get(lemma); if (c && c.status === 'known') vocab.remove(lemma); else vocab.setKnown(meta); paint(); paintMarks(); });
+      paint();
+      act.append(learnB, knownB);
+    }
+    act.append(btn('Translate the sentence', 'small', () => lineFromWord()));
     nodes.push(act);
     setBody(...nodes);
   }
@@ -456,7 +485,8 @@
   const searchState = {};
 
   function tabsList() {
-    const t = [{ id: 'mine', name: 'My texts' }, { id: 'practice', name: 'Practice' }];
+    const due = vocab.stats().due;
+    const t = [{ id: 'mine', name: 'My texts' }, { id: 'review', name: due ? `Review (${due})` : 'Review' }, { id: 'practice', name: 'Practice' }];
     (meta ? meta.sources : []).forEach((s) => t.push({ id: s.id, name: s.name }));
     t.push({ id: 'add', name: 'Add text' }, { id: 'more', name: 'More sources' });
     return t;
@@ -473,6 +503,7 @@
     const panel = $('panel');
     panel.replaceChildren();
     if (id === 'mine') return tabMine(panel);
+    if (id === 'review') return tabReview(panel);
     if (id === 'practice') return tabPractice(panel);
     if (id === 'add') return tabAdd(panel);
     if (id === 'more') return tabMore(panel);
@@ -510,6 +541,129 @@
       li.append(body);
       list.append(li);
     });
+  }
+
+  /* ---------- Review: the words you chose to learn ---------- */
+  const esc = (x) => String(x).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  /** Position of `form` as a whole word inside a sentence, or null. */
+  function findWord(es, form) {
+    if (!es || !form) return null;
+    const m = new RegExp('(?<![\\p{L}\\p{M}])' + esc(form) + '(?![\\p{L}\\p{M}])', 'iu').exec(es);
+    return m ? { i: m.index, len: m[0].length } : null;
+  }
+  function sentenceWith(es, form, blank) {
+    const out = h('p', 'rv-s');
+    out.lang = 'es';
+    const f = findWord(es, form);
+    if (!f) { out.textContent = es; return out; }
+    out.append(es.slice(0, f.i), blank ? h('span', 'blank', '\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0') : h('mark', '', es.slice(f.i, f.i + f.len)), es.slice(f.i + f.len));
+    return out;
+  }
+
+  function runReview(panel) {
+    panel.replaceChildren();
+    const queue = vocab.due().slice(0, 20);
+    const total = queue.length;
+    let n = 0;
+    const box = h('div', 'rv');
+    panel.append(box);
+    const next = () => {
+      box.replaceChildren();
+      if (!queue.length) {
+        box.append(h('p', 'g-en', 'Done'), h('p', 'g-meta', `${total} word${total === 1 ? '' : 's'} reviewed. They will come back when they are due.`), btn('Back to my words', 'primary', () => showTab('review')));
+        return;
+      }
+      const c = queue[0];
+      const hasEx = !!(c.ex && c.ex.es && findWord(c.ex.es, c.ex.form));
+      box.append(h('p', 'g-label', `Word ${Math.min(n + 1, total)} of ${total}`));
+      if (hasEx) { box.append(sentenceWith(c.ex.es, c.ex.form, true), h('p', 'g-meta', 'What word fits the gap?')); }
+      else box.append(h('p', 'rv-word', c.lemma), h('p', 'g-meta', 'What does it mean?'));
+      box.append(btn('Show answer', 'primary rv-show', () => {
+        box.replaceChildren();
+        if (autoSpeak) speak(hasEx ? c.ex.form : c.lemma);
+        const head = h('div', 'g-wordrow');
+        head.append(h('p', 'g-word', hasEx ? c.ex.form : c.lemma));
+        const sp = speakBtn(hasEx ? c.ex.es : c.lemma); if (sp) head.append(sp);
+        box.append(head, h('p', 'g-en', c.gloss || '—'), h('p', 'g-meta', [c.lemma, c.pos].filter(Boolean).join(' · ')));
+        if (hasEx) { box.append(sentenceWith(c.ex.es, c.ex.form, false)); if (c.ex.en) box.append(h('p', 'g-also', c.ex.en)); }
+        const pv = vocab.preview(c);
+        const row = h('div', 'rv-grade');
+        [['again', 'Again'], ['good', 'Good'], ['easy', 'Easy']].forEach(([g, label]) => {
+          const b = btn('', g === 'good' ? 'primary' : '', () => {
+            vocab.grade(c.lemma, g);
+            queue.shift();
+            if (g === 'again') queue.push(c); else n++;
+            next();
+          });
+          b.append(h('span', '', label), h('small', '', window.MargenVocab.wait(pv[g])));
+          row.append(b);
+        });
+        box.append(row);
+      }));
+    };
+    next();
+  }
+
+  function tabReview(panel) {
+    const st = vocab.stats();
+    const cards = vocab.all();
+    if (!cards.length) {
+      panel.append(h('p', '', 'Tap a word while you read and choose “+ Learn”. Your words are listed here and come back for a short review, spaced out so they stick. Words you save are underlined in every text.'));
+    } else {
+      panel.append(h('p', '', `${st.due} due now · ${st.learning} learning · ${st.known} known`));
+      const acts = h('div', 'btns');
+      if (st.due) acts.append(btn(`Review ${Math.min(st.due, 20)} word${st.due === 1 ? '' : 's'}`, 'primary', () => runReview(panel)));
+      if (st.learning && (status.ready || status.web)) {
+        const pr = btn('Read sentences with my words', '', async (e) => {
+          e.target.disabled = true;
+          try { await makeSet({ level: Number(load('margen:level')) || 2, words: vocab.practiceWords(12) }, false); } catch (err) { e.target.disabled = false; e.target.textContent = err.message; }
+        });
+        acts.append(pr);
+      }
+      panel.append(acts);
+      if (!st.due && st.learning) {
+        const nextDue = Math.min(...vocab.all().filter((c) => c.status === 'learning').map((c) => c.due));
+        panel.append(h('p', 'g-meta', 'Nothing is due. Next review in ' + window.MargenVocab.wait(Math.max(0, nextDue - Date.now())) + '.'));
+      }
+      const learning = cards.filter((c) => c.status === 'learning').sort((a, b) => b.added - a.added);
+      const list = h('ul', 'list');
+      learning.forEach((c) => {
+        const li = h('li', 'item');
+        const body = h('div', 'body');
+        const t = h('p', 't', c.lemma);
+        body.append(t, h('p', 'sub', [c.gloss, c.pos].filter(Boolean).join(' · ')));
+        if (c.ex && c.ex.es) body.append(h('p', 'sub it', c.ex.es));
+        const rm = btn('Remove', 'small', () => { if (rm.dataset.armed) { vocab.remove(c.lemma); showTab('review'); return; } rm.dataset.armed = '1'; rm.textContent = 'Tap again'; rm.classList.add('danger'); });
+        const b = h('div', 'btns'); b.append(rm); body.append(b);
+        li.append(body); list.append(li);
+      });
+      panel.append(list);
+      const known = cards.filter((c) => c.status === 'known');
+      if (known.length) {
+        const d = h('details', 'g-more');
+        d.append(h('summary', '', `Known words (${known.length})`));
+        known.forEach((c) => {
+          const row = h('p', 'sub', `${c.lemma} — ${c.gloss || ''} `);
+          row.append(btn('Not yet', 'small', () => { vocab.add({ lemma: c.lemma }); showTab('review'); }));
+          d.append(row);
+        });
+        panel.append(d);
+      }
+    }
+    // Backup: browser storage can be cleared, so the list can be saved to a file and restored.
+    const tools = h('div', 'btns');
+    tools.style.marginTop = '16px';
+    const msg = h('p', 'status');
+    if (cards.length) tools.append(btn('Download backup', 'small', () => {
+      const a = h('a'); a.href = URL.createObjectURL(new Blob([vocab.exportJSON()], { type: 'application/json' })); a.download = 'margen-words.json';
+      document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }));
+    const file = h('input'); file.type = 'file'; file.accept = 'application/json,.json'; file.hidden = true;
+    file.addEventListener('change', async () => {
+      try { const n = vocab.importJSON(await file.files[0].text()); msg.className = 'status'; msg.textContent = `Restored ${n} word${n === 1 ? '' : 's'}.`; showTab('review'); } catch (e) { msg.className = 'status err'; msg.textContent = e.message; }
+    });
+    tools.append(btn('Restore backup', 'small', () => file.click()), file);
+    panel.append(tools, msg);
   }
 
   function tabPractice(panel) {

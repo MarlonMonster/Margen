@@ -116,9 +116,10 @@
     async function pool(level, word) {
       const max = (LEVELS[level] || LEVELS[2]).max;
       const base = (sentencesAll ||= (await load('sentences.json', 'json')) || []);
-      if (!word) return base.filter((s) => s[2] > 0 && s[2] <= max);
-      const w = word.toLowerCase().trim();
-      const forms = new Set([w, ...((await lemmaForms(w)) || [])]);
+      const list = [].concat(word || []).map((x) => String(x).toLowerCase().trim()).filter(Boolean);
+      if (!list.length) return base.filter((s) => s[2] > 0 && s[2] <= max);
+      const forms = new Set();
+      for (const w of list) { forms.add(w); for (const f of (await lemmaForms(w)) || []) forms.add(f); }
       const withWord = base.filter((s) => (s[0].toLowerCase().match(/[\p{L}\p{M}]+/gu) || []).some((t) => forms.has(t)));
       const inLevel = withWord.filter((s) => s[2] <= max);
       return inLevel.length ? inLevel : withWord.sort((a, b) => a[2] - b[2]).slice(0, 60);
@@ -130,9 +131,10 @@
       const rnd = mulberry32(seed);
       const idx = list.map((_, i) => i);
       for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
-      const label = word ? `Sentences with “${word}”` : LEVELS[level].label;
+      const many = Array.isArray(word) && word.length > 1;
+      const label = many ? 'Sentences with your words' : word && word.length ? `Sentences with “${[].concat(word)[0]}”` : LEVELS[level].label;
       return {
-        id: `practice-${level}-${word ? slug(word, 20) + '-' : ''}${seed}`,
+        id: `practice-${level}-${[].concat(word || []).length ? slug([].concat(word)[0], 20) + '-' : ''}${seed}`,
         title: `Practice · ${label}`,
         level: ['A1', 'A1–A2', 'A2–B1', 'B1'][level - 1],
         kind: 'practice', layout: 'list', pairs: true,

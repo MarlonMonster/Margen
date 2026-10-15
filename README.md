@@ -2,6 +2,10 @@
 
 A local Spanish reader. Hover (mouse) or tap a word to see English in a small popup; select text for a whole-sentence translation. No AI is used for translations — everything comes from open data.
 
+## Learning words
+
+Tap a word, then **+ Learn** (or **I know it**). Learning words are underlined in every text. The **Review** tab shows a short spaced review (Again, Good, Easy) using the sentence you met each word in, and can build a practice set of sentences that use your words. Words are stored in the browser on the device you use; use Download backup to keep or move them.
+
 ## Run
 
 Requires Node 18+. No npm install needed.

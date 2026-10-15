@@ -163,7 +163,7 @@
     if (path === '/api/dict') return reply(await engine.lookup(qsp.get('w') || ''));
     if (path === '/api/library') return reply(await listLibrary());
     if (path === '/api/practice' && method === 'POST') {
-      const t = await engine.makeSet({ level: Number(body.level) || 1, word: String(body.word || '').slice(0, 40), count: Math.min(Number(body.count) || 30, 60), seed: Number(body.seed) || undefined });
+      const t = await engine.makeSet({ level: Number(body.level) || 1, word: Array.isArray(body.words) && body.words.length ? body.words.slice(0, 12).map((x) => String(x).slice(0, 40)) : String(body.word || '').slice(0, 40), count: Math.min(Number(body.count) || 30, 60), seed: Number(body.seed) || undefined });
       return t ? reply(t) : fail(404, 'No sentences found for that word. Try another word or a higher level.');
     }
     if (path === '/api/text' && method === 'POST') {

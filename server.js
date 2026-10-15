@@ -110,7 +110,7 @@ function createApp(opts = {}) {
         if (p === '/api/practice' && m === 'POST') {
           if (!(await data.ready())) return json(res, 409, { error: 'The dictionary and sentences are not downloaded yet' });
           const b = await readBody(req);
-          const t = await sentences.makeSet({ level: Number(b.level) || 1, word: String(b.word || '').slice(0, 40), count: Math.min(Number(b.count) || 30, 60), seed: Number(b.seed) || undefined });
+          const t = await sentences.makeSet({ level: Number(b.level) || 1, word: Array.isArray(b.words) && b.words.length ? b.words.slice(0, 12).map((x) => String(x).slice(0, 40)) : String(b.word || '').slice(0, 40), count: Math.min(Number(b.count) || 30, 60), seed: Number(b.seed) || undefined });
           if (!t) return json(res, 404, { error: 'No sentences found for that word. Try another word or a higher level.' });
           return json(res, 200, t);
         }
