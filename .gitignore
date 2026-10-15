@@ -1,4 +1,4 @@
-data/
-library/
-node_modules/
-web/
+/data/
+/library/
+/node_modules/
+/web/
