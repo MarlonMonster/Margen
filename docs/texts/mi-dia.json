@@ -1,0 +1,89 @@
+{
+ "id": "mi-dia",
+ "title": "Mi día",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "A day from morning coffee to a film at night.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {
+  "me": "me|pronoun · “me llamo” = my name is; “me gusta” = I like",
+  "llamo": "I am called|llamarse · yo form",
+  "ana": "Ana|a name",
+  "y": "and|conjunction",
+  "vivo": "I live|vivir · yo form",
+  "en": "in, at|preposition",
+  "madrid": "Madrid|capital of Spain",
+  "por": "in, through|preposition · “por la mañana” = in the morning",
+  "la": "the|article · feminine",
+  "mañana": "morning|noun (f.) · also “tomorrow”",
+  "tomo": "I have, I take|tomar · yo form",
+  "café": "coffee|noun (m.)",
+  "leo": "I read|leer · yo form",
+  "el": "the|article · masculine",
+  "periódico": "newspaper|noun (m.)",
+  "después": "afterwards|adverb",
+  "voy": "I go|ir · yo form",
+  "al": "to the|a + el",
+  "trabajo": "work, job|noun (m.)",
+  "autobús": "bus|noun (m.)",
+  "a": "at, to|preposition · “a las dos” = at two; “salta a” = jumps onto",
+  "las": "the|article · feminine plural",
+  "dos": "two|number",
+  "como": "I eat|comer · yo form",
+  "con": "with|preposition",
+  "mi": "my|possessive",
+  "amiga": "friend|noun (f.)",
+  "lucía": "Lucía|a name",
+  "tarde": "afternoon|noun (f.) · “por la tarde” = in the afternoon",
+  "camino": "I walk|caminar · yo form",
+  "parque": "park|noun (m.)",
+  "perro": "dog|noun (m.)",
+  "noche": "night|noun (f.) · “por la noche” = at night",
+  "cocino": "I cook|cocinar · yo form",
+  "cena": "dinner|noun (f.)",
+  "veo": "I watch, I see|ver · yo form",
+  "una": "a, an|article · feminine",
+  "película": "film, movie|noun (f.)",
+  "gusta": "is pleasing|gustar · “me gusta” = I like it",
+  "día": "day|noun (m.)"
+ },
+ "paras": [
+  [
+   [
+    "Me llamo Ana y vivo en Madrid.",
+    "My name is Ana and I live in Madrid."
+   ],
+   [
+    "Por la mañana tomo café y leo el periódico.",
+    "In the morning I have coffee and read the newspaper."
+   ],
+   [
+    "Después voy al trabajo en autobús.",
+    "Afterwards I go to work by bus."
+   ],
+   [
+    "A las dos como con mi amiga Lucía.",
+    "At two o’clock I eat with my friend Lucía."
+   ]
+  ],
+  [
+   [
+    "Por la tarde camino por el parque con mi perro.",
+    "In the afternoon I walk through the park with my dog."
+   ],
+   [
+    "Por la noche cocino la cena y veo una película.",
+    "At night I cook dinner and watch a film."
+   ],
+   [
+    "Me gusta mi día.",
+    "I like my day."
+   ]
+  ]
+ ]
+}

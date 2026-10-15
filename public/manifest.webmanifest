@@ -1,0 +1,9 @@
+{
+  "name": "Margen",
+  "short_name": "Margen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EEF1EE",
+  "theme_color": "#1F3FBF",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

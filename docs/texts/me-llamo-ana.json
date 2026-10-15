@@ -1,0 +1,52 @@
+{
+ "id": "me-llamo-ana",
+ "title": "Me llamo Ana",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Meeting someone new.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "Hola, me llamo Ana.",
+    "Hello, my name is Ana."
+   ],
+   [
+    "Tengo veinte años y soy de Sevilla.",
+    "I am twenty years old and I am from Seville."
+   ],
+   [
+    "Vivo en un piso pequeño con mi hermana.",
+    "I live in a small flat with my sister."
+   ],
+   [
+    "Ella se llama Lucía y es muy simpática.",
+    "Her name is Lucía and she is very friendly."
+   ]
+  ],
+  [
+   [
+    "Por la mañana, estudio inglés en la universidad.",
+    "In the morning, I study English at the university."
+   ],
+   [
+    "Por la tarde, trabajo en una cafetería.",
+    "In the afternoon, I work in a café."
+   ],
+   [
+    "Me gusta mucho mi trabajo porque conozco a gente nueva.",
+    "I like my job a lot because I meet new people."
+   ],
+   [
+    "¿Y tú? ¿Cómo te llamas?",
+    "And you? What is your name?"
+   ]
+  ]
+ ]
+}

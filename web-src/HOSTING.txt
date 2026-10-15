@@ -1,0 +1,14 @@
+Margen web edition
+==================
+This folder is the whole app. Put it on any static web host that uses HTTPS, then open its address on your phone.
+
+Easiest: Netlify Drop (app.netlify.com/drop). Drag this folder onto the page. You get an address like https://something.netlify.app.
+Also fine: Cloudflare Pages (direct upload) or GitHub Pages.
+
+On the phone:
+  iPhone  - open the address in Safari, Share, Add to Home Screen.
+  Android - open it in Chrome, menu, Add to Home screen (or Install app).
+Then open Margen and tap "Save for offline" once (about 100 MB, on Wi-Fi). After that it works with no signal.
+
+Your saved texts live on the phone, in that browser, not on the host. Clearing the browser's site data deletes them.
+Licences: Wiktionary data CC BY-SA, Tatoeba CC BY 2.0 FR, verb tables CC BY-NC-SA (personal use).

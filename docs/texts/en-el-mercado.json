@@ -1,0 +1,88 @@
+{
+ "id": "en-el-mercado",
+ "title": "En el mercado",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Saturday shopping with prices and an ice cream.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {
+  "hoy": "today|adverb",
+  "es": "is|ser · he/she/it form",
+  "sábado": "Saturday|noun (m.)",
+  "y": "and|conjunction",
+  "vamos": "we go|ir · nosotros form",
+  "al": "to the|a + el",
+  "mercado": "market|noun (m.)",
+  "mi": "my|possessive",
+  "madre": "mother|noun (f.)",
+  "compra": "buys|comprar · he/she form",
+  "tomates": "tomatoes|noun (m.) · plural",
+  "manzanas": "apples|noun (f.) · plural",
+  "pan": "bread|noun (m.)",
+  "el": "the|article · masculine",
+  "vendedor": "seller, stallholder|noun (m.)",
+  "dice": "says|decir · he/she form",
+  "que": "that, who|conjunction or pronoun",
+  "queso": "cheese|noun (m.)",
+  "cuesta": "costs|costar · he/she/it form",
+  "cinco": "five|number",
+  "euros": "euros|noun (m.) · plural",
+  "muy": "very|adverb",
+  "caro": "expensive|adjective · masculine",
+  "pero": "but|conjunction",
+  "bueno": "good|adjective · masculine",
+  "un": "a, an|article · masculine",
+  "poco": "a little|“un poco de” = a little of",
+  "de": "of|preposition",
+  "yo": "I|pronoun",
+  "llevo": "I carry|llevar · yo form",
+  "la": "the|article · feminine",
+  "bolsa": "bag|noun (f.)",
+  "final": "end|noun (m.) · “al final” = in the end",
+  "tomamos": "we have|tomar · nosotros form",
+  "helado": "ice cream|noun (m.)",
+  "en": "in, at|preposition",
+  "plaza": "square|noun (f.)",
+  "me": "me|pronoun · “me llamo” = my name is; “me gusta” = I like",
+  "encanta": "is loved|encantar · “me encanta” = I love it"
+ },
+ "paras": [
+  [
+   [
+    "Hoy es sábado y vamos al mercado.",
+    "Today is Saturday and we are going to the market."
+   ],
+   [
+    "Mi madre compra tomates, manzanas y pan.",
+    "My mother buys tomatoes, apples and bread."
+   ],
+   [
+    "El vendedor dice que el queso cuesta cinco euros.",
+    "The seller says the cheese costs five euros."
+   ],
+   [
+    "Es muy caro, pero es muy bueno.",
+    "It is very expensive, but it is very good."
+   ]
+  ],
+  [
+   [
+    "Mi madre compra un poco de queso y yo llevo la bolsa.",
+    "My mother buys a little cheese and I carry the bag."
+   ],
+   [
+    "Al final tomamos un helado en la plaza.",
+    "In the end we have an ice cream in the square."
+   ],
+   [
+    "Me encanta el sábado.",
+    "I love Saturday."
+   ]
+  ]
+ ]
+}

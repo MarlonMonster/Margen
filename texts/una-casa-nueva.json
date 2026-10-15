@@ -1,0 +1,48 @@
+{
+ "id": "una-casa-nueva",
+ "title": "Una casa nueva",
+ "level": "A2",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Moving house and looking around.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "Por fin nos mudamos a una casa nueva.",
+    "At last we are moving to a new house."
+   ],
+   [
+    "Tiene tres habitaciones, un salón grande y una cocina moderna.",
+    "It has three bedrooms, a big living room and a modern kitchen."
+   ],
+   [
+    "Lo mejor es el balcón, desde donde se ve toda la calle.",
+    "The best thing is the balcony, from where you can see the whole street."
+   ]
+  ],
+  [
+   [
+    "Todavía no tenemos muchos muebles.",
+    "We still don't have much furniture."
+   ],
+   [
+    "Esta semana vamos a comprar un sofá, una mesa y cuatro sillas.",
+    "This week we are going to buy a sofa, a table and four chairs."
+   ],
+   [
+    "Mis vecinos son muy amables y ya nos han invitado a tomar un café.",
+    "Our neighbours are very kind and have already invited us for a coffee."
+   ],
+   [
+    "Creo que vamos a ser muy felices aquí.",
+    "I think we are going to be very happy here."
+   ]
+  ]
+ ]
+}

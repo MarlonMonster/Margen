@@ -1,0 +1,56 @@
+{
+ "id": "en-el-restaurante",
+ "title": "En el restaurante",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Ordering a meal.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "Hoy comemos en un restaurante pequeño.",
+    "Today we are eating in a small restaurant."
+   ],
+   [
+    "El camarero nos trae el menú.",
+    "The waiter brings us the menu."
+   ],
+   [
+    "—Buenas tardes. ¿Qué desean beber?",
+    "\"Good afternoon. What would you like to drink?\""
+   ],
+   [
+    "—Yo quiero agua, por favor, y mi amigo quiere una cerveza.",
+    "\"I would like water, please, and my friend would like a beer.\""
+   ]
+  ],
+  [
+   [
+    "De primero, tomo una sopa. De segundo, pescado con patatas.",
+    "For the first course, I have soup. For the second, fish with potatoes."
+   ],
+   [
+    "Mi amigo pide una ensalada y un filete.",
+    "My friend orders a salad and a steak."
+   ],
+   [
+    "La comida está muy rica.",
+    "The food is very tasty."
+   ],
+   [
+    "—La cuenta, por favor.",
+    "\"The bill, please.\""
+   ],
+   [
+    "Pagamos y damos las gracias al camarero.",
+    "We pay and thank the waiter."
+   ]
+  ]
+ ]
+}

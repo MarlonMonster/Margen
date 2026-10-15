@@ -1,0 +1,91 @@
+{
+ "id": "la-casa-de-pablo",
+ "title": "La casa de Pablo",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "A small house and a cat who sleeps all day.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {
+  "pablo": "Pablo|a name",
+  "tiene": "has|tener · he/she form",
+  "una": "a, an|article · feminine",
+  "casa": "house|noun (f.)",
+  "pequeña": "small|adjective · feminine",
+  "en": "in, at|preposition",
+  "la": "the|article · feminine",
+  "hay": "there is, there are|haber · impersonal",
+  "cocina": "kitchen|noun (f.)",
+  "un": "a, an|article · masculine",
+  "baño": "bathroom|noun (m.)",
+  "y": "and|conjunction",
+  "dos": "two|number",
+  "habitaciones": "bedrooms|noun (f.) · plural",
+  "también": "also|adverb",
+  "gato": "cat|noun (m.)",
+  "negro": "black|adjective · masculine",
+  "que": "that, who|conjunction or pronoun",
+  "se": "(reflexive)|“se llama” = is called",
+  "llama": "is called|llamarse · he/she form",
+  "luna": "Luna|the cat’s name · also “moon”",
+  "duerme": "sleeps|dormir · he/she form",
+  "mucho": "a lot|adverb",
+  "pero": "but|conjunction",
+  "a": "at, to|preposition · “a las dos” = at two; “salta a” = jumps onto",
+  "las": "the|article · feminine plural",
+  "siete": "seven|number",
+  "hambre": "hunger|noun (f.) · “tener hambre” = to be hungry",
+  "le": "to her, to him|pronoun · “le da” = gives her",
+  "da": "gives|dar · he/she form",
+  "pescado": "fish (as food)|noun (m.)",
+  "agua": "water|noun (f.)",
+  "fresca": "fresh, cool|adjective · feminine",
+  "luego": "then, later|adverb",
+  "el": "the|article · masculine",
+  "salta": "jumps|saltar · he/she form",
+  "ventana": "window|noun (f.)",
+  "mira": "looks at|mirar · he/she form",
+  "calle": "street|noun (f.)",
+  "los": "the|article · masculine plural",
+  "están": "are|estar · they form",
+  "contentos": "happy|adjective · masculine plural"
+ },
+ "paras": [
+  [
+   [
+    "Pablo tiene una casa pequeña.",
+    "Pablo has a small house."
+   ],
+   [
+    "En la casa hay una cocina, un baño y dos habitaciones.",
+    "In the house there is a kitchen, a bathroom and two bedrooms."
+   ],
+   [
+    "También hay un gato negro que se llama Luna.",
+    "There is also a black cat called Luna."
+   ]
+  ],
+  [
+   [
+    "Luna duerme mucho, pero a las siete tiene hambre.",
+    "Luna sleeps a lot, but at seven o’clock she is hungry."
+   ],
+   [
+    "Pablo le da pescado y agua fresca.",
+    "Pablo gives her fish and fresh water."
+   ],
+   [
+    "Luego el gato salta a la ventana y mira la calle.",
+    "Then the cat jumps onto the windowsill and looks at the street."
+   ],
+   [
+    "Los dos están contentos.",
+    "The two of them are happy."
+   ]
+  ]
+ ]
+}

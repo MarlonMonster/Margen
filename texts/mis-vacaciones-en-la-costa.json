@@ -1,0 +1,48 @@
+{
+ "id": "mis-vacaciones-en-la-costa",
+ "title": "Mis vacaciones en la costa",
+ "level": "A2",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Last summer by the sea.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "El verano pasado pasé dos semanas en un pueblo de la costa.",
+    "Last summer I spent two weeks in a village on the coast."
+   ],
+   [
+    "Alquilamos un apartamento cerca del mar.",
+    "We rented an apartment near the sea."
+   ],
+   [
+    "Todas las mañanas me levantaba temprano y daba un paseo por la playa.",
+    "Every morning I got up early and went for a walk along the beach."
+   ]
+  ],
+  [
+   [
+    "Por la tarde nadábamos, jugábamos al fútbol y tomábamos helados.",
+    "In the afternoon we swam, played football and ate ice creams."
+   ],
+   [
+    "Una noche cenamos pescado fresco en un restaurante del puerto.",
+    "One evening we had fresh fish in a restaurant at the harbour."
+   ],
+   [
+    "Cuando volví a casa, estaba triste porque las vacaciones habían terminado.",
+    "When I got back home, I was sad because the holidays were over."
+   ],
+   [
+    "Pero ya estoy pensando en las vacaciones del año que viene.",
+    "But I am already thinking about next year's holidays."
+   ]
+  ]
+ ]
+}

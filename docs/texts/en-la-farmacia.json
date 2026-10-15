@@ -1,0 +1,52 @@
+{
+ "id": "en-la-farmacia",
+ "title": "En la farmacia",
+ "level": "A2",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Feeling ill and asking for help.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "Ayer me desperté con dolor de cabeza y la garganta irritada.",
+    "Yesterday I woke up with a headache and a sore throat."
+   ],
+   [
+    "No tenía fiebre, pero me sentía muy cansada.",
+    "I didn't have a fever, but I felt very tired."
+   ],
+   [
+    "Por eso fui a la farmacia que está al lado de mi casa.",
+    "So I went to the pharmacy that is next to my house."
+   ]
+  ],
+  [
+   [
+    "—Buenos días. ¿En qué puedo ayudarle?",
+    "\"Good morning. How can I help you?\""
+   ],
+   [
+    "—Me duele la garganta y tengo tos. ¿Qué me recomienda?",
+    "\"My throat hurts and I have a cough. What do you recommend?\""
+   ],
+   [
+    "—Puede tomar estas pastillas dos veces al día y beber mucha agua.",
+    "\"You can take these tablets twice a day and drink lots of water.\""
+   ],
+   [
+    "—Gracias. Si no mejoro, ¿debo ir al médico?",
+    "\"Thank you. If I don't get better, should I go to the doctor?\""
+   ],
+   [
+    "—Sí, si sigue mal en tres días, es mejor consultar a un médico.",
+    "\"Yes, if you are still unwell in three days, it is better to see a doctor.\""
+   ]
+  ]
+ ]
+}

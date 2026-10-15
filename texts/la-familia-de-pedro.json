@@ -1,0 +1,52 @@
+{
+ "id": "la-familia-de-pedro",
+ "title": "La familia de Pedro",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "A boy describes his family.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "Esta es mi familia.",
+    "This is my family."
+   ],
+   [
+    "Mi padre se llama Carlos y mi madre se llama Elena.",
+    "My father is called Carlos and my mother is called Elena."
+   ],
+   [
+    "Tengo un hermano y una hermana.",
+    "I have a brother and a sister."
+   ],
+   [
+    "Mi hermano es alto y mi hermana es baja.",
+    "My brother is tall and my sister is short."
+   ]
+  ],
+  [
+   [
+    "También tengo un perro que se llama Toby.",
+    "I also have a dog called Toby."
+   ],
+   [
+    "Es grande, marrón y muy divertido.",
+    "He is big, brown and very funny."
+   ],
+   [
+    "Los domingos comemos todos en casa de mis abuelos.",
+    "On Sundays we all eat at my grandparents' house."
+   ],
+   [
+    "Mi abuela cocina la mejor paella del mundo.",
+    "My grandmother makes the best paella in the world."
+   ]
+  ]
+ ]
+}

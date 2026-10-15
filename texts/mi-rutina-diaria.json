@@ -1,0 +1,48 @@
+{
+ "id": "mi-rutina-diaria",
+ "title": "Mi rutina diaria",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "A normal weekday from morning to night.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "Me despierto a las siete de la mañana.",
+    "I wake up at seven in the morning."
+   ],
+   [
+    "Me ducho, me visto y desayuno café con tostadas.",
+    "I shower, get dressed and have coffee with toast for breakfast."
+   ],
+   [
+    "A las ocho salgo de casa y voy al trabajo en autobús.",
+    "At eight I leave the house and go to work by bus."
+   ]
+  ],
+  [
+   [
+    "Trabajo hasta las cinco de la tarde.",
+    "I work until five in the afternoon."
+   ],
+   [
+    "Después, vuelvo a casa y preparo la cena.",
+    "Afterwards, I go back home and make dinner."
+   ],
+   [
+    "Por la noche, veo la televisión o leo un libro.",
+    "In the evening, I watch television or read a book."
+   ],
+   [
+    "Me acuesto a las once porque estoy muy cansado.",
+    "I go to bed at eleven because I am very tired."
+   ]
+  ]
+ ]
+}

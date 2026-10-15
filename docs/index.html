@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Margen</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Margen">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top" id="top">
+  <div class="wrap">
+    <div class="row">
+      <h1 class="mark">Margen</h1>
+      <button id="lib-btn" class="btn" type="button" aria-pressed="false">Library</button>
+    </div>
+    <div class="row" id="tools">
+      <div class="seg" role="radiogroup" aria-label="What a hover or tap translates">
+        <button id="m-word" type="button" role="radio" aria-checked="true">Word</button>
+        <button id="m-line" type="button" role="radio" aria-checked="false">Line</button>
+      </div>
+      <button id="size-btn" class="btn size" type="button" aria-label="Change text size">Aa</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section id="banner" class="banner" hidden>
+      <div>
+        <strong id="banner-title">Download the dictionary</strong>
+        <p id="banner-text">Margen needs a Spanish–English dictionary, word forms and example sentences (about 150 MB, once). Nothing is sent anywhere.</p>
+      </div>
+      <button id="banner-btn" class="btn primary" type="button">Download</button>
+    </section>
+
+    <section id="read">
+      <p id="cap" class="cap"></p>
+      <div id="read-actions" class="row actions" hidden></div>
+      <figure id="cover" class="cover" hidden><img id="cover-img" alt=""></figure>
+      <details id="audio" class="note" hidden>
+        <summary>Listen while you read</summary>
+        <select id="audio-sel" aria-label="Recording section"></select>
+        <audio id="audio-el" controls preload="none"></audio>
+        <p class="fine">Recording from LibriVox volunteers, in the public domain.</p>
+      </details>
+      <details id="ref" class="note" hidden>
+        <summary id="ref-sum">English article</summary>
+        <div id="ref-body"></div>
+      </details>
+      <section id="reader" class="reader" lang="es" data-mode="word"></section>
+      <nav id="pager" class="pager" hidden>
+        <button id="prev" class="btn" type="button">Previous</button>
+        <span id="page-of"></span>
+        <button id="next" class="btn" type="button">Next</button>
+      </nav>
+      <p id="credit" class="fine"></p>
+    </section>
+
+    <section id="library" hidden>
+      <div id="tabs" class="tabs" role="tablist" aria-label="Library"></div>
+      <div id="panel" class="panel"></div>
+    </section>
+  </div>
+</main>
+
+<div id="pop" class="pop" role="dialog" aria-label="Meaning" aria-live="polite" hidden>
+  <span id="caret" class="caret"></span>
+  <div class="pop-in">
+    <div class="pop-head">
+      <p id="p-label" class="g-label"></p>
+      <button id="p-close" class="x" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div id="p-body"></div>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script src="shim.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

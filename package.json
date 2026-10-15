@@ -1,0 +1,15 @@
+{
+  "name": "margen",
+  "version": "1.0.0",
+  "description": "A local Spanish reader: hover or tap a word for its meaning. No accounts, no AI.",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "lan": "node server.js --lan",
+    "setup": "node scripts/setup.js",
+    "build-web": "node scripts/build-web.js",
+    "test": "node --test test/*.test.js"
+  }
+}

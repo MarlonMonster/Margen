@@ -1,0 +1,52 @@
+{
+ "id": "un-viaje-en-tren",
+ "title": "Un viaje en tren",
+ "level": "A2",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "A day trip from Madrid to Toledo.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "El sábado pasado fui a Toledo con mi amigo Javier.",
+    "Last Saturday I went to Toledo with my friend Javier."
+   ],
+   [
+    "Cogimos el tren en la estación de Atocha a las nueve de la mañana.",
+    "We took the train at Atocha station at nine in the morning."
+   ],
+   [
+    "El viaje duró unos treinta minutos.",
+    "The journey lasted about thirty minutes."
+   ],
+   [
+    "Por la ventana vimos campos amarillos y pueblos pequeños.",
+    "Through the window we saw yellow fields and small villages."
+   ]
+  ],
+  [
+   [
+    "Cuando llegamos, subimos a pie hasta el centro de la ciudad.",
+    "When we arrived, we walked up to the city centre."
+   ],
+   [
+    "Visitamos la catedral, que es enorme y muy antigua.",
+    "We visited the cathedral, which is huge and very old."
+   ],
+   [
+    "Después comimos en una terraza y probamos el mazapán, un dulce típico.",
+    "Afterwards we ate on a terrace and tried marzipan, a typical sweet."
+   ],
+   [
+    "Volvimos a Madrid por la tarde, cansados pero felices.",
+    "We returned to Madrid in the afternoon, tired but happy."
+   ]
+  ]
+ ]
+}

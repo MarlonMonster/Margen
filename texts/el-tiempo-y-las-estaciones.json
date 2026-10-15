@@ -1,0 +1,48 @@
+{
+ "id": "el-tiempo-y-las-estaciones",
+ "title": "El tiempo y las estaciones",
+ "level": "A1",
+ "kind": "starter",
+ "layout": "prose",
+ "pairs": true,
+ "blurb": "Weather through the year.",
+ "source": {
+  "name": "Written for Margen",
+  "license": "Yours to use"
+ },
+ "gloss": {},
+ "paras": [
+  [
+   [
+    "En primavera hace buen tiempo y hay muchas flores.",
+    "In spring the weather is nice and there are lots of flowers."
+   ],
+   [
+    "En verano hace mucho calor y vamos a la playa.",
+    "In summer it is very hot and we go to the beach."
+   ],
+   [
+    "En otoño llueve y las hojas de los árboles caen.",
+    "In autumn it rains and the leaves fall from the trees."
+   ],
+   [
+    "En invierno hace frío y a veces nieva en la montaña.",
+    "In winter it is cold and sometimes it snows in the mountains."
+   ]
+  ],
+  [
+   [
+    "Mi estación favorita es el otoño.",
+    "My favourite season is autumn."
+   ],
+   [
+    "Me gusta caminar por el parque con un abrigo y una bufanda.",
+    "I like walking through the park in a coat and a scarf."
+   ],
+   [
+    "¿Cuál es tu estación favorita?",
+    "What is your favourite season?"
+   ]
+  ]
+ ]
+}
