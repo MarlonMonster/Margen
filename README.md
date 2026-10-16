@@ -4,7 +4,7 @@ A local Spanish reader. Hover (mouse) or tap a word to see English in a small po
 
 ## Learning words
 
-Tap a word, then **+ Learn** (or **I know it**). Learning words are underlined in every text. The **Review** tab shows a short spaced review (Again, Good, Easy) using the sentence you met each word in, and can build a practice set of sentences that use your words. Words are stored in the browser on the device you use; use Download backup to keep or move them.
+Tap a word, then **+ Learn** (or **I know it**). Learning words are underlined in every text. The **Review** tab shows a short spaced review (Again, Good, Easy) using the sentence you met each word in, and can build a practice set of sentences that use your words. **Train** mixes short exercises (meanings, gaps, building sentences, listening) from your words and example sentences. Words are stored in the browser on the device you use; use Download backup to keep or move them.
 
 ## Run
 

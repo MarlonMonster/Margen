@@ -486,7 +486,7 @@
 
   function tabsList() {
     const due = vocab.stats().due;
-    const t = [{ id: 'mine', name: 'My texts' }, { id: 'review', name: due ? `Review (${due})` : 'Review' }, { id: 'practice', name: 'Practice' }];
+    const t = [{ id: 'mine', name: 'My texts' }, { id: 'review', name: due ? `Review (${due})` : 'Review' }, { id: 'train', name: 'Train' }, { id: 'practice', name: 'Practice' }];
     (meta ? meta.sources : []).forEach((s) => t.push({ id: s.id, name: s.name }));
     t.push({ id: 'add', name: 'Add text' }, { id: 'more', name: 'More sources' });
     return t;
@@ -504,6 +504,7 @@
     panel.replaceChildren();
     if (id === 'mine') return tabMine(panel);
     if (id === 'review') return tabReview(panel);
+    if (id === 'train') return tabTrain(panel);
     if (id === 'practice') return tabPractice(panel);
     if (id === 'add') return tabAdd(panel);
     if (id === 'more') return tabMore(panel);
@@ -664,6 +665,162 @@
     });
     tools.append(btn('Restore backup', 'small', () => file.click()), file);
     panel.append(tools, msg);
+  }
+
+  /* ---------- Train: short mixed exercises ---------- */
+  function tabTrain(panel) {
+    const T = window.MargenTrain;
+    const learning = vocab.all().filter((c) => c.status === 'learning');
+    const canSentences = status.ready || status.web;
+    panel.append(h('p', '', 'Twelve short exercises: meanings, filling gaps, building sentences and listening. They use the words you are learning and real sentences with English. A right answer moves a due word on; a wrong one brings it back sooner.'));
+    if (!learning.length && !canSentences) { panel.append(h('p', 'status err', 'Tap “+ Learn” on some words first, or download the dictionary so sentences are available.')); return; }
+    let level = Number(load('margen:level')) || 2;
+    const chips = h('div', 'chips');
+    const draw = () => chips.replaceChildren(...Object.entries(meta.practice.levels).map(([k, v]) => {
+      const b = btn(v.label, Number(k) === level ? 'on' : '', () => { level = Number(k); store('margen:level', String(level)); draw(); });
+      b.setAttribute('aria-pressed', String(Number(k) === level));
+      return b;
+    }));
+    draw();
+    const st = h('p', 'status');
+    const go = btn(learning.length ? `Start (${learning.length} of your words)` : 'Start', 'primary', async () => {
+      go.disabled = true; st.className = 'status'; st.textContent = 'Choosing exercises…';
+      try {
+        let pairs = [];
+        if (canSentences) {
+          const ask = (extra) => api('/api/practice', { method: 'POST', body: Object.assign({ level, count: 40, seed: Math.floor(Math.random() * 1e6) }, extra) }).then((t) => t.paras.map((p) => p[0])).catch(() => []);
+          const mine = learning.length ? await ask({ words: vocab.practiceWords(12) }) : [];
+          pairs = mine.concat(await ask({}));
+        }
+        const list = T.makeExercises({ cards: learning, pairs, speech: speakOk, n: 12 });
+        if (!list.length) throw new Error('Not enough material yet. Learn a few words first.');
+        runTrain(panel, list);
+      } catch (e) { go.disabled = false; st.className = 'status err'; st.textContent = e.message; }
+    });
+    panel.append(chips, go, st);
+  }
+
+  function runTrain(panel, list) {
+    const T = window.MargenTrain;
+    const queue = list.slice();
+    const total = list.length;
+    let done = 0, firstTry = 0;
+    const missed = new Set();
+    const box = h('div', 'tr');
+    panel.replaceChildren(box);
+
+    const finish = () => {
+      box.replaceChildren(h('p', 'g-en', `${firstTry} of ${total} right first time`));
+      if (missed.size) box.append(h('p', 'g-meta', 'To revisit: ' + [...missed].join(', ')));
+      const row = h('div', 'btns');
+      row.append(btn('Another set', 'primary', () => showTab('train')), btn('Done', '', () => showTab('review')));
+      box.append(row);
+    };
+    const grade = (ex, ok) => {
+      if (!ex.lemma) return;
+      const c = vocab.get(ex.lemma);
+      if (!c || c.status !== 'learning') return;
+      if (!ok) vocab.grade(ex.lemma, 'again'); else if (c.due <= Date.now()) vocab.grade(ex.lemma, 'good');
+    };
+
+    const next = () => {
+      box.replaceChildren();
+      if (!queue.length) return finish();
+      const ex = queue[0];
+      const bar = h('div', 'tr-bar'); const fill = h('span'); fill.style.width = Math.round((done / total) * 100) + '%'; bar.append(fill);
+      box.append(bar);
+      const body = h('div', 'tr-body');
+      const foot = h('div', 'tr-foot');
+      box.append(body, foot);
+      let answered = false;
+
+      const settle = (result, correctNode, note) => {
+        if (answered) return;
+        answered = true;
+        const ok = result === 'right' || result === 'accent';
+        if (!ex.retried) { grade(ex, ok); if (ok) firstTry++; else if (ex.lemma) missed.add(ex.lemma); }
+        queue.shift();
+        if (ok) done++; else if (!ex.retried) { ex.retried = true; queue.push(ex); }
+        else done++;
+        foot.className = 'tr-foot ' + (ok ? 'good' : 'bad');
+        foot.replaceChildren(h('p', 'tr-verdict', ok ? (result === 'accent' ? 'Nearly: mind the accents' : 'Correct') : 'Not quite'));
+        if (correctNode) foot.append(correctNode);
+        if (note) foot.append(h('p', 'g-meta', note));
+        const c = btn('Continue', 'primary', next); foot.append(c); c.focus();
+        if (autoSpeak && ok && (ex.es || ex.lemma)) speak(ex.es || ex.lemma);
+      };
+      const ans = (text, es) => { const d = h('div', 'tr-ans'); d.append(h('p', 'tr-correct', text)); if (es) { const sp = speakBtn(es); if (sp) d.append(sp); } return d; };
+
+      if (ex.type === 'meaning' || ex.type === 'read') {
+        let chosen = null;
+        if (ex.type === 'meaning') {
+          const row = h('div', 'g-wordrow'); row.append(h('p', 'rv-word', ex.prompt)); const sp = speakBtn(ex.prompt); if (sp) row.append(sp);
+          body.append(h('p', 'g-label', 'What does this word mean?'), row);
+        } else {
+          const row = h('div', 'g-wordrow'); row.append(h('p', 'rv-s', ex.es)); const sp = speakBtn(ex.es); if (sp) row.append(sp);
+          body.append(h('p', 'g-label', 'Choose the English'), row);
+        }
+        const opts = h('div', 'tr-opts');
+        const check = btn('Check', 'primary', () => {
+          opts.querySelectorAll('button').forEach((b) => { b.disabled = true; if (b.textContent === ex.answer) b.classList.add('right'); else if (b.textContent === chosen) b.classList.add('wrong'); });
+          check.remove();
+          settle(chosen === ex.answer ? 'right' : 'wrong', chosen === ex.answer ? null : ans(ex.answer, ex.type === 'read' ? ex.es : ex.lemma));
+        });
+        check.disabled = true;
+        ex.options.forEach((o) => {
+          const b = btn(o, 'tr-opt', () => { chosen = o; opts.querySelectorAll('button').forEach((x) => x.classList.toggle('sel', x === b)); check.disabled = false; });
+          opts.append(b);
+        });
+        body.append(opts); foot.append(check);
+      } else if (ex.type === 'gap') {
+        body.append(h('p', 'g-label', 'Type the missing word'));
+        const f = T.findWord(ex.es, ex.form);
+        const s = h('p', 'rv-s'); s.lang = 'es';
+        s.append(ex.es.slice(0, f.i), h('span', 'blank', '\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0'), ex.es.slice(f.i + f.len));
+        body.append(s);
+        if (ex.hint) body.append(h('p', 'g-also', ex.hint));
+        const inp = h('input'); inp.type = 'text'; inp.lang = 'es'; inp.autocomplete = 'off'; inp.autocapitalize = 'off'; inp.spellcheck = false; inp.setAttribute('aria-label', 'Missing word');
+        inp.className = 'tr-input';
+        const check = btn('Check', 'primary', () => {
+          if (answered) return;
+          inp.disabled = true; check.remove();
+          const r = T.checkTyped(inp.value, ex.form);
+          const full = h('p', 'rv-s'); full.append(ex.es.slice(0, f.i), h('mark', '', ex.es.slice(f.i, f.i + f.len)), ex.es.slice(f.i + f.len));
+          const d = h('div', 'tr-ans'); d.append(full); const sp = speakBtn(ex.es); if (sp) d.append(sp);
+          settle(r, d, ex.en || '');
+        });
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') check.click(); });
+        body.append(inp); foot.append(check);
+        setTimeout(() => inp.focus(), 50);
+      } else {
+        // build / listen: tap the words in order
+        const listen = ex.type === 'listen';
+        body.append(h('p', 'g-label', listen ? 'Tap what you hear' : 'Build the Spanish sentence'));
+        if (listen) {
+          const row = h('div', 'btns');
+          row.append(btn('▶ Play', 'primary', () => speak(ex.es)), btn('Slower', '', () => { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(ex.es); u.lang = 'es-ES'; u.rate = 0.6; speechSynthesis.speak(u); } catch (e) { /* no voice */ } }));
+          body.append(row);
+          setTimeout(() => speak(ex.es), 150);
+        } else body.append(h('p', 'rv-s en', ex.en));
+        const line = h('div', 'tr-line'); const bank = h('div', 'tr-bank');
+        const built = [];
+        const chipFor = (t, idx) => { const b = btn(t, 'chip-w'); b.dataset.i = idx; return b; };
+        const items = ex.bank.map((t, i) => ({ t, i, used: false }));
+        const redraw = () => {
+          line.replaceChildren(...built.map((it) => { const b = btn(it.t, 'chip-w placed', () => { it.used = false; built.splice(built.indexOf(it), 1); redraw(); }); return b; }));
+          bank.replaceChildren(...items.map((it) => { const b = btn(it.t, 'chip-w', () => { it.used = true; built.push(it); redraw(); }); b.disabled = it.used; if (it.used) b.classList.add('gone'); return b; }));
+          check.disabled = !built.length;
+        };
+        const check = btn('Check', 'primary', () => {
+          check.remove(); bank.querySelectorAll('button').forEach((b) => { b.disabled = true; }); line.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+          const ok = T.checkBuilt(built.map((x) => x.t), ex.es);
+          settle(ok ? 'right' : 'wrong', ans(ex.es, ex.es), ex.en);
+        });
+        body.append(line, bank); foot.append(check);
+        redraw();
+      }
+    };
+    next();
   }
 
   function tabPractice(panel) {

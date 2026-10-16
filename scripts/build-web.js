@@ -30,13 +30,13 @@ async function main() {
   await fsp.mkdir(out, { recursive: true });
 
   /* App files */
-  for (const f of ['app.css', 'app.js', 'vocab.js', 'icon.svg']) await fsp.copyFile(path.join(root, 'public', f), path.join(out, f));
+  for (const f of ['app.css', 'app.js', 'vocab.js', 'train.js', 'icon.svg']) await fsp.copyFile(path.join(root, 'public', f), path.join(out, f));
   await fsp.copyFile(path.join(root, 'web-src', 'engine.js'), path.join(out, 'engine.js'));
   await fsp.copyFile(path.join(root, 'web-src', 'shim.js'), path.join(out, 'shim.js'));
   for (const n of await fsp.readdir(path.join(root, 'web-src', 'icons'))) await fsp.copyFile(path.join(root, 'web-src', 'icons', n), path.join(out, n));
 
   let html = await fsp.readFile(path.join(root, 'public', 'index.html'), 'utf8');
-  html = html.replace('<script src="vocab.js"></script>\n<script src="app.js"></script>', '<script src="engine.js"></script>\n<script src="shim.js"></script>\n<script src="vocab.js"></script>\n<script src="app.js"></script>')
+  html = html.replace('<script src="vocab.js"></script>\n<script src="train.js"></script>\n<script src="app.js"></script>', '<script src="engine.js"></script>\n<script src="shim.js"></script>\n<script src="vocab.js"></script>\n<script src="train.js"></script>\n<script src="app.js"></script>')
     .replace('<link rel="apple-touch-icon" href="icon.svg">', '<link rel="apple-touch-icon" href="icon-180.png">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-title" content="Margen">');
   await fsp.writeFile(path.join(out, 'index.html'), html);
 
@@ -75,7 +75,7 @@ async function main() {
   await fsp.writeFile(path.join(ddir, 'manifest.json'), JSON.stringify({ files }));
 
   /* Service worker, versioned by the content of the app files */
-  const shell = ['./', 'index.html', 'app.css', 'app.js', 'vocab.js', 'engine.js', 'shim.js', 'icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'links.json', 'texts/index.json', ...names.map((n) => `texts/${n}`)];
+  const shell = ['./', 'index.html', 'app.css', 'app.js', 'vocab.js', 'train.js', 'engine.js', 'shim.js', 'icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'links.json', 'texts/index.json', ...names.map((n) => `texts/${n}`)];
   const h = crypto.createHash('sha1');
   for (const f of shell.filter((f) => f !== './')) h.update(await fsp.readFile(path.join(out, f)));
   const sw = (await fsp.readFile(path.join(root, 'web-src', 'sw.js'), 'utf8')).replace('__VERSION__', h.digest('hex').slice(0, 10)).replace('__SHELL_FILES__', JSON.stringify(shell));
